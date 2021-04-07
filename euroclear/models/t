@@ -1,0 +1,48 @@
+from odoo import models, fields, api
+from odoo.exceptions import AccessError, except_orm, ValidationError, UserError
+
+class EclCandidate(models.Model):
+
+    _name = 'ecl.candidate'
+    name = fields.Char(string='Candidate')
+    x_ecl_candidate_donotpropose = fields.Boolean(string='Do Not Propose')
+
+class EclRole(models.Model):
+    _name = 'ecl.function'
+    x_ecl_function_id = fields.Char(string='Function ID')
+    name = fields.Char(string='Function')
+    x_ecl_function_link = fields.Html(string='Function Link')
+
+class EclSubcontractor(models.Model):
+    _name = 'ecl.subcontractor'
+    name = fields.Char(string='Via')
+
+class EclProposal(models.Model):
+    _name = 'ecl.proposal'
+    _inherit = 'ecl.candidate'
+    _order = "x_ecl_proposal_date DESC"
+    x_ecl_proposal_date = fields.Date(string='Date')
+    x_ecl_proposal_role = fields.Many2one(
+        comodel_name='ecl.function',
+        string='Role',
+    )
+    x_ecl_proposal_candidate = fields.Many2one(
+        comodel_name='ecl.candidate',
+        string='Candidate',
+    ) 
+    x_ecl_proposal_via = fields.Many2one(
+            comodel_name='ecl.subcontractor',
+            string='Via'
+    )
+    x_ecl_proposal_cost = fields.Integer(string='Cost')
+    x_ecl_proposal_price = fields.Integer(string='Price Ecl')
+    x_ecl_proposal_feedback = fields.Text(string='Feedback')
+
+    @api.onchange('x_ecl_proposal_candidate')
+    def _check_name(self):
+      with self.assertRaises(ValidationError):
+            self.channel_1.write("Blah")
+        for record in self:
+            obj = self.search([('name','=ilike',record.name)])
+            if obj:
+              raise exceptions.ValidationError("Candidate should not be proposed")

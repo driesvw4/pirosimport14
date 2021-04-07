@@ -1,0 +1,190 @@
+<odoo>
+    <data>
+        <template id="piros_report_purchasequotation_document_inherit_css"
+		inherit_id="web.report_assets_common">
+		<xpath expr="." position="inside">
+			<link href="/piros/static/src/css/documents.css" rel="stylesheet" type="text/css"/>
+		</xpath>
+	</template>
+        <template id="piros_report_purchasequotation_document_inherit"
+                  inherit_id="purchase.report_purchasequotation_document">
+            <xpath expr="//t[@t-set='address']" position="replace"/>
+	    <xpath expr="//t[starts-with(@t-if, 'o.dest_address_id')]" position="attributes">
+		    <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]/h2" position="after">
+                <div class="row piros-header">
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="text-left">
+                                    Company:
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <t t-if="o.partner_id.street2 is not False">
+                                        <br/>
+                                    </t>
+                                    Your sales person:
+                                    <br/>
+                                    E-mail:
+                                    <br/>
+                                    Phone:
+                                    <br/>
+                                    <br/>
+                                    VAT #
+                                </td>
+                                <td class="text-left">
+                                    Piros
+                                    <br/>
+                                    Gaston Geenslaan 11 B4
+                                    <br/>
+                                    3001 Leuven
+                                    <br/>
+                                    <t t-if="o.partner_id.street2 is not False">
+                                        <br/>
+                                    </t>
+                                    <span t-field="o.user_id.name"/>
+                                    <br/>
+                                    <span t-field="o.user_id.partner_id.email"/>
+                                    <br/>
+                                    <span t-field="o.user_id.partner_id.phone"/>
+                                    <br/>
+                                    <br/>
+                                    <span t-field="o.user_id.partner_id.vat"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="text-left">
+                                    End customer:
+                                    <br/>
+                                    <t t-if="o.partner_id.street2 is not False">
+                                        <br/>
+                                    </t>
+                                    <br/>
+                                    <br/>
+                                    Contact:
+                                    <br/>
+                                    E-mail:
+                                    <br/>
+                                    Phone:
+                                    <br/>
+                                    <br/>
+                                    VAT #:
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="o.x_end_customer_id.commercial_partner_id.name"/>
+                                    <br/>
+                                    <span t-field="o.x_end_customer_id.street"/>
+                                    <br/>
+                                    <t t-if="o.x_end_customer_id.street2 is not False">
+                                        <span t-field="o.x_end_customer_id.street2"/>
+                                        <br/>
+                                    </t>
+                                    <span t-field="o.x_end_customer_id.zip"/>
+                                    <span t-field="o.x_end_customer_id.city"/>
+                                    <br/>
+                                    <span t-field="o.x_end_customer_id.name"/>
+                                    <br/>
+                                    <span t-field="o.x_end_customer_id.email"/>
+                                    <br/>
+                                    <span t-field="o.x_end_customer_id.phone"/>
+                                    <br/>
+                                    <br/>
+                                    <span t-field="o.x_end_customer_id.vat"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="text-left">
+                                    Distributor:
+                                    <br/>
+                                    <t t-if="o.partner_id.street2 is not False">
+                                        <br/>
+                                    </t>
+                                    <br/>
+                                    <br/>
+                                    Contact:
+                                    <br/>
+                                    E-mail:
+                                    <br/>
+                                    Phone:
+                                    <br/>
+                                    <br/>
+                                    VAT #:
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="o.partner_id.commercial_company_name"/>
+                                    <br/>
+                                    <span t-field="o.partner_id.street"/>
+                                    <br/>
+                                    <t t-if="o.partner_id.street2 is not False">
+                                        <span t-field="o.partner_id.street2"/>
+                                        <br/>
+                                    </t>
+                                    <span t-field="o.partner_id.zip"/>
+                                    <span t-field="o.partner_id.city"/>
+                                    <br/>
+                                    <span t-field="o.partner_id.name"/>
+                                    <br/>
+                                    <span t-field="o.partner_id.email"/>
+                                    <br/>
+                                    <span t-field="o.partner_id.phone"/>
+                                    <br/>
+                                    <br/>
+                                    <span t-field="o.partner_id.vat"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//th[@name='th_description']" position="before">
+                <th class="text-left">Item</th>
+            </xpath>
+            <xpath expr="//th[@name='th_expected_date']" position="replace"/>
+            <xpath expr="//th[@name='th_description']" position="after">
+                <th class="text-left">Start Date</th>
+                <th class="text-left">End Date</th>
+                <th class="text-right">Contract #</th>
+                <th class="text-left">Type</th>
+            </xpath>
+
+            <xpath expr="//td[span[@t-field='order_line.date_planned']]" position="replace"/>
+
+            <xpath expr="//td[span[@t-field='order_line.name']]" position="after">
+                <td class="text-left">
+                    <span t-field="order_line.x_startdate"/>
+                </td>
+                <td class="text-left">
+                    <span t-field="order_line.x_enddate"/>
+                </td>
+                <td class="text-right">
+                    <span t-esc="'{:}'.format(int(order_line.x_contract)).replace(',', '')"/>
+                </td>
+                <td class="text-left">
+                    <span t-field="order_line.x_renewal"/>
+                </td>
+            </xpath>
+            <xpath expr="//td[span[@t-field='order_line.name']]" position="before">
+                <td class="text-left">
+                    <span t-esc="(order_line.name.split(']', 1)[0] + ']').strip('[').strip(']')"/>
+                </td>
+            </xpath>
+            <xpath expr="//span[@t-field='order_line.name']" position="replace">
+                <span t-esc="order_line.name.split(']', 1)[-1]"/>
+            </xpath>
+            <xpath expr="//span[@t-field='order_line.product_qty']" position="replace">
+                <span t-esc="order_line.humanize_quantity()"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

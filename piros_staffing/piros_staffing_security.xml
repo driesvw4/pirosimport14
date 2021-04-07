@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="piros_staffing_category">
+            <field name="name">Piros Staffing</field>
+            <field name="sequence">16</field>
+        </record>
+        <record model="res.groups" id="group_piros_staffing_user">
+            <field name="name">Piros Staffing User</field>
+            <field name="category_id"  ref="piros_staffing_category"/>
+        </record>    
+        <record model="res.groups" id="group_piros_staffing_manager">
+            <field name="name">Piros Staffing Manager</field>
+            <field name="implied_ids" eval="[(4, ref('piros_staffing.group_piros_staffing_user'))]"/>
+            <field name="category_id"  ref="piros_staffing_category"/>
+        </record>
+        
+        <!-- Record Rule.. -->    
+        <record model="ir.rule" id="rule_piros_staffing_visits">
+            <field name="name">Piros Staffing Candidate</field>
+            <field name="model_id" ref="piros_staffing.candidate"/>
+            <field name="domain_force"></field>
+            <field name="groups" eval="[(4, ref('group_piros_staffing_user'))]"/>
+        </record>
+    </data>
+</odoo>

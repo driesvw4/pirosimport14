@@ -1,0 +1,27 @@
+h2 {
+    color: red !important;
+}
+
+.piros-header {
+    font-size: 0.5em;
+    margin-bottom: 30px;
+}
+
+.piros-header tbody {
+	background-color: #efefef;
+	margin-bottom: 30px;
+}
+
+.page h2 {
+	margin-bottom: 30px;
+}
+
+ .o_company_1_layout{font-family: 'Lato';}.o_company_1_layout.o_report_layout_standard h2{color: #ae2322;}.o_company_1_layout.o_report_layout_standard #informations strong{color: #af2d2c;}.o_company_1_layout.o_report_layout_standard #total strong{color: #ae2322;}.o_company_1_layout.o_report_layout_standard table thead{color: #ffffff; background-color: red;}
+
+.o_main_table {
+	font-size: 0.75em;
+}
+
+#customersignature {
+	font-size: 0.7em;
+}

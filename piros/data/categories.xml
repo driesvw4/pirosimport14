@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_category_redhat" model="product.category">
+                <field name="name">Red Hat</field>
+        </record>
+        <record id="product_category_piros" model="product.category">
+                <field name="name">Piros</field>
+        </record>
+        <record id="product_category_suse" model="product.category">
+                <field name="name">Suse</field>
+        </record>
+        <record id="product_category_zabbix" model="product.category">
+                <field name="name">Zabbix</field>
+        </record>
+        <record id="product_category_redhat_subs" model="product.category">
+                <field name="parent_id" ref="product_category_redhat"/>
+                <field name="name">Subscriptions</field>
+        </record>
+        <record id="product_category_redhat_training" model="product.category">
+                <field name="parent_id" ref="product_category_redhat"/>
+                <field name="name">Training</field>
+        </record>
+        <record id="product_category_redhat_services" model="product.category">
+                <field name="parent_id" ref="product_category_redhat"/>
+                <field name="name">Services</field>
+        </record>
+        <record id="product_category_redhat_subs_academic" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Academic</field>
+        </record>
+        <record id="product_category_redhat_subs_ansible" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Ansible</field>
+        </record>
+        <record id="product_category_redhat_subs_cloud" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Cloud</field>
+        </record>
+        <record id="product_category_redhat_subs_hosted" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Hosted</field>
+        </record>
+        <record id="product_category_redhat_subs_middleware" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Middleware</field>
+        </record>
+        <record id="product_category_redhat_subs_openshift" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">OpenShift</field>
+        </record>
+        <record id="product_category_redhat_subs_rhel" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">RHEL</field>
+        </record>
+        <record id="product_category_redhat_subs_rhelrelated" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">RHEL Related</field>
+        </record>
+        <record id="product_category_redhat_subs_rhv" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">RHV</field>
+        </record>
+        <record id="product_category_redhat_subs_storage" model="product.category">
+                <field name="parent_id" ref="product_category_redhat_subs"/>
+                <field name="name">Storage</field>
+        </record>
+        <record id="product_category_piros_services" model="product.category">
+                <field name="parent_id" ref="product_category_piros"/>
+                <field name="name">Services</field>
+        </record>
+        <record id="product_category_piros_training" model="product.category">
+                <field name="parent_id" ref="product_category_piros"/>
+                <field name="name">Training</field>
+        </record>
+    </data>
+</odoo>

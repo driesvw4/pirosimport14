@@ -1,0 +1,188 @@
+<odoo>
+  <data>
+   <record id="view_euroclear_tree" model="ir.ui.view">
+      <field name="name">euroclear.proposal.tree</field>
+      <field name="model">euroclear.proposal</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+	 <tree string="Candidates">
+	    <field name="x_euroclear_proposal_date" />
+	    <field name="x_euroclear_proposal_endcustomer" />
+	    <field name="x_euroclear_proposal_role" />
+	    <field name="x_euroclear_proposal_candidate" />
+	    <field name="x_euroclear_proposal_via" />
+	    <field name="x_euroclear_proposal_cost" />
+	    <field name="x_euroclear_proposal_price" />
+	    <field name="x_euroclear_margin" />
+	    <field name="x_euroclear_margin_pt" />
+	    <field name="x_euroclear_am_intermediate" />
+	    <field name="user_id" />
+	    <field name="x_euroclear_proposal_feedback" />
+	    <field name="x_euroclear_candidate_donotpropose" />
+         </tree>
+      </field>
+   </record>
+   <record id="view_euroclear_form" model="ir.ui.view">
+      <field name="name">euroclear.proposal.form</field>
+      <field name="model">euroclear.proposal</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+         <form string="Kandidaat">
+            <sheet>
+              <group>
+	        <field name="x_euroclear_proposal_date" />
+		<field name="x_euroclear_proposal_endcustomer" string="End Customer" />
+		<field name="x_euroclear_proposal_role" string="Function" />
+		<field name="x_euroclear_proposal_candidate" string="Candidate" />
+	        <field name="x_euroclear_proposal_via" />
+		<field name="x_euroclear_am_intermediate" />
+	        <field name="x_euroclear_proposal_cost" />
+	        <field name="x_euroclear_proposal_price" />
+	        <field name="x_euroclear_margin" />
+	        <field name="x_euroclear_margin_pt" />
+	        <field name="x_euroclear_proposal_feedback" />
+		<field name="x_euroclear_candidate_donotpropose" />
+	      </group>
+            </sheet>
+         </form>
+      </field>
+   </record>
+   <record id="view_euroclear_functions_tree" model="ir.ui.view">
+      <field name="name">euroclear.function.tree</field>
+      <field name="model">euroclear.function</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+	 <tree string="Functies">
+	    <field name="x_euroclear_function_id" />
+	    <field name="name" />
+	    <field name="x_euroclear_function_link" />
+         </tree>
+      </field>
+   </record>
+   <record id="view_euroclear_functions_form" model="ir.ui.view">
+	   <field name="name">euroclear.function.form</field>
+	   <field name="model">euroclear.function</field>
+	   <field name="priority" eval="8" />
+	   <field name="arch" type="xml">
+		   <form string="Functie">
+			   <sheet>
+				   <group>
+					   <field name="x_euroclear_function_id" />
+					   <field name="name" />
+					   <field name="x_euroclear_function_link" />
+				   </group>
+			   </sheet>
+                   </form>
+           </field>
+   </record>
+   <record id="view_euroclear_candidate_proposedfunctions_view_tree" model="ir.ui.view">
+      <field name="name">euroclear.candidateproposedfunctions.tree</field>
+      <field name="model">euroclear.candidateproposedfunctions</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+	 <tree string="Functies">
+		 <field name="x_euroclear_candidateproposedfunctions_date" />
+		 <field name="x_euroclear_candidateproposedfunctions_function" />
+		 <field name="x_euroclear_candidateproposedfunctions_feedback" />
+         </tree>
+      </field>
+   </record>
+   <record id="view_euroclear_candidate_endcustomer_view_tree" model="ir.ui.view">
+      <field name="name">euroclear.endcustomer.tree</field>
+      <field name="model">euroclear.endcustomer</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+	 <tree string="End Customers">
+		 <field name="name" />
+         </tree>
+      </field>
+   </record>
+
+   <record id="view_euroclear_candidate_proposedfunctions_view_form" model="ir.ui.view">
+	   <field name="name">euroclear.candidateproposedfunctions.form</field>
+	   <field name="model">euroclear.candidateproposedfunctions</field>
+	   <field name="priority" eval="8" />
+	   <field name="arch" type="xml">
+		   <form string="Functie">
+			   <sheet>
+				   <group>
+		                     <field name="x_euroclear_candidateproposedfunctions_date" />
+                    		     <field name="x_euroclear_candidateproposedfunctions_function" />
+		                     <field name="x_euroclear_candidateproposedfunctions_feedback" />
+				   </group>
+			   </sheet>
+                   </form>
+           </field>
+   </record>
+   <record id="view_euroclear_candidate_view_form" model="ir.ui.view">
+	   <field name="name">euroclear.candidate.form</field>
+	   <field name="model">euroclear.candidate</field>
+	   <field name="priority" eval="8" />
+	   <field name="arch" type="xml">
+		   <form string="Functie">
+			   <sheet>
+				   <group>
+		                     <field name="name" />
+                    		     <field name="x_euroclear_candidate_donotpropose" />
+				   </group>
+			   </sheet>
+			   <sheet>
+				   <field name="x_euroclear_candidate_proposal">
+					   <tree string="Proposals">
+						   <field name="x_euroclear_proposal_date" />
+						   <field name="x_euroclear_proposal_role" />
+						   <field name="x_euroclear_proposal_via" />
+						   <field name="x_euroclear_proposal_cost" />
+						   <field name="x_euroclear_proposal_price" />
+						   <field name="x_euroclear_proposal_feedback" />
+					   </tree>
+			           </field>
+			   </sheet>
+                   </form>
+           </field>
+   </record>
+   <record model="ir.actions.act_window" id="action_view_euroclear">
+      <field name="name">Kandidaten</field>
+      <field name="res_model">euroclear.proposal</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="help" type="html">
+         <p class="oe_view_nocontent_create">Log new candidate</p>
+      </field>
+   </record>
+   <record model="ir.actions.act_window" id="action_view_euroclear_functions">
+      <field name="name">Functies</field>
+      <field name="res_model">euroclear.function</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="help" type="html">
+         <p class="oe_view_nocontent_create">Log new function</p>
+      </field>
+   </record>
+   <record model="ir.actions.act_window" id="action_euroclear_candidate_proposedfunctions_view">
+      <field name="name">Functies</field>
+      <field name="res_model">euroclear.candidateproposedfunctions</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="help" type="html">
+         <p class="oe_view_nocontent_create">Log new function</p>
+      </field>
+   </record>
+   <record model ="ir.ui.view" id="euroclear_search_view">
+	   <field name="name">euroclear.search</field>
+	   <field name="model">euroclear.proposal</field>
+	   <field name="arch" type="xml">
+		   <search>
+		           <field name="x_euroclear_proposal_role" />
+            		   <field name="x_euroclear_proposal_candidate" />
+        		   <field name="x_euroclear_proposal_via" />
+		           <field name="x_euroclear_proposal_feedback" />
+		</search>
+	</field>
+   </record>
+   <menuitem id="menu_euroclear" name="Staffing" sequence="7" web_icon="euroclear,static/description/icon.png"/>
+   <menuitem id="euroclear_euroclear" name="Aangeboden profielen" parent="menu_euroclear" action="action_view_euroclear" />
+   <menuitem id="euroclear_euroclear_functions" name="Aangevraagde Functies" parent="menu_euroclear" action="action_view_euroclear_functions" />
+   <menuitem id="euroclear_euroclear_candidate_proposedfunctions" name="Voorgestelde Functies" parent="menu_euroclear" action="action_euroclear_candidate_proposedfunctions_view" />
+  </data>
+</odoo>

@@ -1,0 +1,404 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="piros.renewals_overview_list">
+      <field name="name">Renewals Overview</field>
+      <field name="model">piros.renewals.overview</field>
+      <field name="arch" type="xml">
+        <tree string="Renewals">
+	  <field name="x_date"/>
+	  <field name="x_so"/>
+          <button class="oe_stat_button" name="button_so" type="object" icon="fa-chain"/>
+	  <field name="x_customer"/>
+	  <field name="x_end_customer"/>
+	  <field name="x_product"/>
+	  <field name="x_qty"/>
+	  <field name="x_contract"/>
+	</tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="piros.list">
+      <field name="name">Margin Splits</field>
+      <field name="model">piros.marginsplit</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="x_name"/>
+          <field name="x_kind"/>
+          <field name="x_percentage_ep"/>
+          <field name="x_percentage_split"/>
+          <field name="x_fixed_price"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="piros.sales_overview_list">
+      <field name="name">Sales Overview</field>
+      <field name="model">sale.order</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="state"/>
+          <field name="partner_id"/>
+          <field name="x_end_customer_id"/>
+          <field name="x_startdate"/>
+          <field name="x_enddate"/>
+          <field name="x_renewal"/>
+          <field name="x_types"/>
+          <field name="x_summary"/>
+          <field name="x_marginsplit_id"/>
+          <field name="x_totalcost" string="Purchase Amount"/>
+          <field name="margin" string="Gross Margin"/>
+          <field name="x_pirosmargin"/>
+          <field name="x_totalintercompany"/>
+          <field name="amount_untaxed" string="End User Price"/>
+          <field name="x_syb" string="Single Year Booking"/>
+	  <field name="x_co_term"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="piros_marginsplit_form_view">
+      <field name="name">Margin Split Form</field>
+      <field name="model">piros.marginsplit</field>
+      <field name="arch" type="xml">
+        <form string="Margin Split Form">
+          <sheet>
+            <group>
+              <field name="x_name"/>
+              <field name="x_kind"/>
+              <field name="x_fixed_price"/>
+              <field name="x_percentage_ep"/>
+              <field name="x_percentage_split"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="piros_marginsplit_search_view">
+      <field name="name">marginsplit.search</field>
+      <field name="model">piros.marginsplit</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="x_name"/>
+        </search>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="piros.action_sale_overview_window">
+      <field name="name">Sales Overview</field>
+      <field name="res_model">sale.order</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="piros.sales_overview_list"/>
+      <field name="domain">[]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="piros.action_renewal_list_window">
+      <field name="name">Renewal Overview</field>
+      <field name="res_model">piros.renewals.overview</field>
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="piros.renewals_overview_list"/>
+      <field name="domain">[]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="piros.action_window">
+      <field name="name">Margin Splits</field>
+      <field name="res_model">piros.marginsplit</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="piros.action_server">
+      <field name="name">piros server</field>
+      <field name="model_id" ref="model_piros_marginsplit"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "name": 'Margin splits server',
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": 'piros.marginsplit',
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Piros" id="piros.menu_root" web_icon="piros,static/description/icon.png"/>
+
+    <menuitem name="Sales Overview" id="piros.sales_overview" parent="piros.menu_root"
+              action="piros.action_sale_overview_window"/>
+    <menuitem name="Renewal Overview" id="piros.renewals_overview" parent="piros.menu_root"
+              action="piros.action_renewal_list_window"/>
+    <menuitem name="Administration" id="piros.admin" parent="piros.menu_root"/>
+    <menuitem name="Margin Splits" id="piros.marginsplit" parent="piros.admin"
+              action="piros.action_window"/>
+
+<!--    <menuitem name="Server to list" id="piros" parent="piros.admin"-->
+<!--              action="piros.action_server"/>-->
+    <record id="sale_order_margin_view_form_inherit" model="ir.ui.view">
+      <field name="name">Piros Custom Margin Fields</field>
+      <field name="model">sale.order</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+      <field name="arch" type="xml">
+        <xpath expr="/form/sheet/notebook/page[@name='order_lines']/group[@name='note_group']/group[@name='sale_total']/div" position="replace">
+        </xpath>
+
+        <field name="amount_total" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+
+        <field name="amount_tax" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+
+        <field name="amount_untaxed" position="replace">
+          <field name="amount_untaxed" string="End User Total"/>
+        </field>
+        <field name="margin" position="replace">
+          <field name="margin" string="Gross Margin"/>
+        </field>
+        <field name="margin" position="after">
+          <field name="x_totalcost" string="Purchase Price"/>
+          <field name="x_pirosmargin" string="Piros Margin"/>
+          <field name="x_pirosmargin_pct" string="Piros Margin %"/>
+          <field name="x_totalintercompany" string="Total Intercompany"/>
+        </field>
+      </field>
+    </record>
+
+    <record id="sale_order_view_form_inherit" model="ir.ui.view">
+      <field name="name">Piros Custom Sales Fields</field>
+      <field name="model">sale.order</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+          <field name="x_end_customer_id" string="End Customer"/>
+          <field name="x_marginsplit_id" string="Margin Split Override"/>
+        </field>
+	<field name="payment_term_id" position="after">
+	  <field name="client_order_ref" string="Customer reference"/>
+	</field>
+        <!--<field name="margin" position="after">
+          <label for="x_pirosmargin" style="color: black"/>
+          <field name="x_pirosmargin" string="Piros Margin" style="color: black" nolabel="1"/>
+          <label for="x_pirosmarginoverride" style="color: black"/>
+          <field name="x_pirosmarginoverride" string="Piros Margin Override" style="color: black" nolabel="1"/>
+          <label for="x_pirosmarginpercentage" style="color: black"/>
+          <field name="x_pirosmarginpercentage" string="Piros Margin %" style="color: black" nolabel="1"/>
+          <label for="x_totalcost" style="color: black"/>
+          <field name="x_totalcost" string="Purchase Price" style="color: black" nolabel="1"/>
+        </field>-->
+<!--        <field name="margin" position="replace">-->
+<!--          <field name="margin" string="Total Margin"/>-->
+<!--        </field>-->
+        <!--
+        <field name="amount_untaxed" position="attributes">
+          <attribute name="class">mc-purchase-heavy</attribute>
+          <attribute name="nolabel">1</attribute>
+        </field>
+        <field name="amount_untaxed" position="before">
+          <label for="amount_untaxed" class="mc-purchase-heavy"/>
+        </field>-->
+        <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
+		<field name="x_startdate" />
+		<field name="x_enddate" />
+		<field name="x_contract" />
+		<field name="x_renewal" />
+        </xpath>
+        <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='discount']"
+               position="after">
+          <field name="x_discountedprice"/>
+        </xpath>
+        <!--
+        <xpath expr="//label[@for='o_field_input_79']" position="attributes">
+            <attribute name="class">mc-purchase-heavy</attribute>
+            </xpath>
+            -->
+        <xpath expr="(//button[@name='action_quotation_send' and @groups='sale.group_proforma_sales'])[1]"
+               position="attributes">
+          <attribute name="string">Send to Billing</attribute>
+        </xpath>
+        <xpath expr="(//button[@name='action_quotation_send' and @groups='sale.group_proforma_sales'])[2]"
+               position="attributes">
+          <attribute name="string">Send to Billing</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+      <field name="name">Piros Custom Purchase Fields</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='order_line']/tree/field[@name='product_qty']" position="before">
+		<field name="x_startdate" />
+		<field name="x_enddate" />
+		<field name="x_contract"/>
+		<field name="x_renewal"/>
+	</xpath>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+          <field name="x_discount" />
+          <field name="x_discountedprice"/>
+        </xpath>
+        <xpath expr="//field[@name='partner_ref']" position="after">
+          <field name="x_end_customer_id"/>
+        </xpath>
+      </field>
+    </record>
+
+
+    <record id="view_res_partner_form_inherit" model="ir.ui.view">
+      <field name="name">Cronos InterCompany Custom Fields</field>
+      <field name="model">res.partner</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="/form/sheet/notebook/page[@name='sales_purchases']/group/group[@name='misc']/field[@name='industry_id']" position="after">
+          <field name="x_intercompany" string="Cronos Intercompany"/>
+          <field name="x_marginsplit_id" string="Cronos Intercompany Margin Split"/>
+        </xpath>
+	<xpath expr="/form/sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']" position="after">
+	  <field name="x_redhat_accountmanager" string="Red Hat Account Manager"/>
+	  <field name="x_redhat_internalsales" string="Red Hat Internal Sales"/>
+	</xpath>
+	<xpath expr="//page[@name='internal_notes']" position="after">
+		<page name="x_attachments" string="Documents">
+			<field name="x_partner_attachment_ids" string="Documents" widget="many2many_binary" style="min-width: 500px"/>
+		</page>
+	        <page name="x_red_hat_ecosystem" string="Red Hat Ecosystem">
+			<!--
+			<field name="x_partner_tags" string="Subjects" widget="many2many_tags"/>
+			-->
+		</page>
+	</xpath>
+      </field>
+    </record>
+
+    <record id="piros_view_quotation_tree_inherit" model="ir.ui.view">
+      <field name="name">piros.sale.order.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='expected_date']" position="replace">
+          <field name="expected_date" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='commitment_date']" position="replace">
+          <field name="commitment_date" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_end_customer_id" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+          <attribute name="sum">Total End User Price (ex. taxes)</attribute>
+          <attribute name="string">End User Price</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_untaxed']" position="after">
+          <field name="x_totalintercompany" sum="Grand Total Intercompany"/>
+          <field name="x_pirosmargin" sum="Total Piros Margin" optional="show"/>
+          <field name="x_pirosmargin_pct" optional="show" string="Piros Marg. %"/>
+          <field name="x_syb" optional="show" sum="Total SYB"/>
+	  <field name="x_co_term" optional="show"/>
+          <field name="origin" widget="source_document_link" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='amount_total']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="piros_view_order_tree_inherit" model="ir.ui.view">
+      <field name="name">piros.sale.order.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_tree"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='expected_date']" position="replace">
+          <field name="expected_date" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='commitment_date']" position="replace">
+          <field name="commitment_date" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_end_customer_id" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+          <attribute name="sum">Total End User Price (ex. taxes)</attribute>
+          <attribute name="string">End User Price</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_untaxed']" position="after">
+          <field name="x_totalintercompany" sum="Grand Total Intercompany"/>
+          <field name="x_pirosmargin" sum="Total Piros Margin" optional="show"/>
+          <field name="x_pirosmargin_pct" optional="show" string="Piros Marg. %"/>
+          <field name="x_syb" optional="show" sum="Total SYB"/>
+	  <field name="x_co_term" optional="show"/>
+          <field name="origin" widget="source_document_link" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='amount_total']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="piros_purchase_order_tree_inherit" model="ir.ui.view">
+      <field name="name">piros.purchase.order.tree</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_end_customer_id" optional="show"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="piros_act_res_partner_2_sale_order" model="ir.actions.act_window">
+            <field name="name">Quotations and Sales</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form,graph</field>
+	    <field name="context">{'search_default_x_end_customer_id': active_id, 'default_x_end_customer_id': active_id}</field>
+            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+              </p>
+            </field>
+        </record>
+		<record id="piros_res_partner_view_buttons" model="ir.ui.view">
+            <field name="name">piros.partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="sale.res_partner_view_buttons" />
+            <field name="priority" eval="3"/>
+            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="arch" type="xml">
+		    <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="action" name="%(piros.piros_act_res_partner_2_sale_order)d"
+                        groups="sales_team.group_sale_salesman"
+			    icon="fa-eur">
+                        <field string="Indirect Sales" name="x_indirect_sale_order_count" widget="statinfo"/>
+                    </button>
+			</div>
+            </field>
+        </record>
+        <record id="piros_saleorder_search" model="ir.ui.view">
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+      <field name="arch" type="xml">
+        <search string="Search Sales Order">
+          <field name="x_end_customer_id" operator="child_of"/>
+        </search>
+      </field>
+    </record>
+  </data>
+</odoo>

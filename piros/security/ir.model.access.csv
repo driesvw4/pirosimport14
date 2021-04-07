@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_piros_marginsplit,access_piros_marginsplit,model_piros_marginsplit,base.group_user,1,0,0,0
+access_piros_renewals_overview,access_piros_renewals_overview,model_piros_renewals_overview,base.group_user,1,0,0,0
+access_piros_marginsplit_xxx,piros.marginsplit,model_piros_marginsplit,,1,1,1,1
