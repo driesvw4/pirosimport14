@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
 
+
 class purchase_order(models.Model):
     _inherit = "purchase.order"
     
@@ -19,7 +20,7 @@ class purchase_order(models.Model):
         return super(purchase_order, self).create(vals)
         
     def button_confirm(self):
-        res =  super(purchase_order, self).button_confirm()
+        res = super(purchase_order, self).button_confirm()
         for order in self:
             if order.interchanging_rfq_sequence:
                 order.write({'name': order.interchanging_po_sequence})
@@ -38,5 +39,4 @@ class purchase_order(models.Model):
         if self.interchanging_rfq_sequence:
             self.write({'interchanging_po_sequence':self.name})
             self.write({'name':self.interchanging_rfq_sequence})
-        
         return res

@@ -5,14 +5,14 @@
     'license': 'AGPL-3',
     'website': 'https://www.onestein.nl',
     'category': 'Tools',
-    'version': '12.0.1.0.2',
+    'version': '14.0.1.0.2',
     'development_status': 'Alpha',
     'depends': [
         'calendar'
     ],
-    'external_dependencies': {
-        'python': ['requests_oauthlib']
-    },
+    # 'external_dependencies': {
+    #     'python': ['requests_oauthlib']
+    # },
     'data': [
         'templates/assets.xml',
         'views/res_config_settings_view.xml',

@@ -2,4 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_euroclear_subcontractor,access_euroclear_subcontractor,model_euroclear_subcontractor,base.group_user,1,1,1,1
 access_euroclear_proposal,access_euroclear_proposal,model_euroclear_proposal,base.group_user,1,1,1,1
 access_euroclear_candidate,access_euroclear_candidate,model_euroclear_candidate,base.group_user,1,1,1,1
-access_euroclear_functi on,access_euroclear_function,model_euroclear_function,base.group_user,1,1,1,1
+access_euroclear_function,access_euroclear_function,model_euroclear_function,base.group_user,1,1,1,1
