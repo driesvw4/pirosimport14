@@ -2,4 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_piros_staffing_subcontractor,access_piros_staffing_subcontractor,model_piros_staffing_subcontractor,base.group_user,1,1,1,1
 access_piros_staffing_proposal,access_piros_staffing_proposal,model_piros_staffing_proposal,base.group_user,1,1,1,1
 access_piros_staffing_candidate,access_piros_staffing_candidate,model_piros_staffing_candidate,base.group_user,1,1,1,1
-access_piros_staffing_functi on,access_piros_staffing_function,model_piros_staffing_function,base.group_user,1,1,1,1
+access_piros_staffing_function,access_piros_staffing_function,model_piros_staffing_function,base.group_user,1,1,1,1
