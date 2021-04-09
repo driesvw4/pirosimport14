@@ -8,7 +8,7 @@
     'license': "Other proprietary",
     'summary': """Add a special sequence to your RFQs""",
     'data': ['sequence.xml'],
-    'depends': ['base', 'purchase', 'stock'],
+    'depends': ['base', 'purchase'],
     'images': ["static/description/image.png"],
     'installable': True,
     'auto_install': False,

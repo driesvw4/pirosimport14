@@ -3,22 +3,23 @@
         <record id="piros_send_to_billing" model="mail.template">
             <field name="name">Sales Order: Send to billing</field>
             <field name="model_id" ref="sale.model_sale_order"/>
-            <field name="subject">${object.company_id.name} ${object.state in ('draft', 'sent') and 'Quotation' or 'Order'} (Ref ${object.name or 'n/a' })</field>
+            <field name="subject">${object.company_id.name}
+                ${object.state in ('draft', 'sent') and 'Quotation' or 'Order'} (Ref ${object.name or 'n/a' })</field>
             <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
             <field name="partner_to" eval="None"/>
             <field name="body_html" type="html">
-<div style="margin: 0px; padding: 0px;">
-    <p style="margin: 0px; padding: 0px; font-size: 13px;">
-        % set doc_name = 'quotation' if object.state in ('draft', 'sent') else 'order'
-        Dag Heidi<br/><br/>
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set doc_name = 'quotation' if object.state in ('draft', 'sent') else 'order'
+                        Dag Heidi<br/><br/>
 
-        Deze mag mee in de facturatie.
-        <br/><br/>
+                        Deze mag mee in de facturatie.
+                        <br/><br/>
 
-        Groetjes,<br/><br/>
-        ${object.user_id.name.split()[0]}
-    </p>
-</div>
+                        Groetjes,<br/><br/>
+                        ${object.user_id.name.split()[0]}
+                    </p>
+                </div>
             </field>
             <field name="report_template" ref="sale.action_report_saleorder"/>
             <field name="report_name">${(object.name or '').replace('/','_')}</field>

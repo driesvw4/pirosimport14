@@ -29,6 +29,7 @@
     'data': [
         'wizard/sale_order_wizard_view.xml',
         'views/main_purchase_order_view.xml',
+        'security/ir.model.access.csv'
     ],
 
     'test': [],

@@ -84,19 +84,19 @@ class SalesExtension(models.Model):
                     syb += piros_revenue
 
                 if line.x_startdate and line.x_enddate:
-                  years = line.x_enddate.year - line.x_startdate.year
-                  if years < 2:
-                      syb += piros_revenue
-                  else:
-                      syb += piros_revenue / years
+                    years = line.x_enddate.year - line.x_startdate.year
+                    if years < 2:
+                        syb += piros_revenue
+                    else:
+                        syb += piros_revenue / years
             order.update(dict(x_syb=syb))
 
-    #@api.depends('order_line.x_enddate', 'order_line.x_startdate')
+    # @api.depends('order_line.x_enddate', 'order_line.x_startdate')
     def _compute_co_term(self):
         for order in self:
             start_dates = set()
             end_dates = set()
-            #years_set = set()
+            # years_set = set()
             months_set = set()
 
             # Scan over all order lines to keep track of the start and end dates, and their difference in years
@@ -106,23 +106,24 @@ class SalesExtension(models.Model):
                     continue
                 start_dates.add(line.x_startdate)
                 end_dates.add(line.x_enddate)
-            #    years = line.x_enddate.year - line.x_startdate.year
-                months = (line.x_enddate.year - line.x_startdate.year) * 12 + line.x_enddate.month - line.x_startdate.month
-            #    if years < 2:
-            #        years = 1
-            #    years_set.add(years)
+                #    years = line.x_enddate.year - line.x_startdate.year
+                months = (
+                                     line.x_enddate.year - line.x_startdate.year) * 12 + line.x_enddate.month - line.x_startdate.month
+                #    if years < 2:
+                #        years = 1
+                #    years_set.add(years)
                 months_set.add(months)
 
             # First, we assume we are not co-term
             is_co_term = False
 
             # We will check in all order lines, if there is one that is not in a 1/3/5 scheme.
-            #for years in years_set:
+            # for years in years_set:
             #    if years not in [1, 3, 5]:
             #        is_co_term = True
             #        break
             for months in months_set:
-                if months not in [12,36,60]:
+                if months not in [12, 36, 60]:
                     is_co_term = True
                     break
 
@@ -154,7 +155,8 @@ class SalesExtension(models.Model):
             piros_margin = gross_margin * marginsplit.x_percentage_split / 100
 
         elif marginsplit.x_kind == 'total_percentage_split':
-            piros_margin = ((sale - (sale * marginsplit.x_percentage_ep / 100)) - purchase) * ( marginsplit.x_percentage_split / 100 )
+            piros_margin = ((sale - (sale * marginsplit.x_percentage_ep / 100)) - purchase) * (
+                        marginsplit.x_percentage_split / 100)
             inter_company_margin = gross_margin - piros_margin
 
         return piros_margin
@@ -247,6 +249,7 @@ class SalesLineExtension(models.Model):
         ('renewal', 'Renewal')], string='Type')
     x_discountedprice = fields.Monetary(compute='_compute_discountedprice', store='true',
                                         string='Discounted Unit Price')
+
     @api.depends('discount', 'price_unit')
     def _compute_discountedprice(self):
         for line in self:
@@ -256,25 +259,25 @@ class SalesLineExtension(models.Model):
         return re.sub(r'\.0+', '', str(self.product_uom_qty))
 
 
-
 class RenewalsOverview(models.Model):
-  _name = 'piros.renewals.overview'
-  _auto = False
+    _name = 'piros.renewals.overview'
+    _description = 'piros renewals overview'
+    _auto = False
 
-  x_date = fields.Date('Date')
-  x_so = fields.Char('SO')
-  x_customer = fields.Char('Customer')
-  x_end_customer = fields.Char('End Customer')
-  x_product = fields.Char('Product')
-  x_qty = fields.Float('Qty')
-  x_contract = fields.Integer(string="Contract #")
-  x_order_id = fields.Integer(string="ID")
+    x_date = fields.Date('Date')
+    x_so = fields.Char('SO')
+    x_customer = fields.Char('Customer')
+    x_end_customer = fields.Char('End Customer')
+    x_product = fields.Char('Product')
+    x_qty = fields.Float('Qty')
+    x_contract = fields.Integer(string="Contract #")
+    x_order_id = fields.Integer(string="ID")
 
-  #  @api.model_cr
-  def init(self):
-      print("Connected")
-      tools.drop_view_if_exists(self.env.cr, 'piros_renewals_overview')
-      self.env.cr.execute("""
+    #  @api.model_cr
+    def init(self):
+        print("Connected")
+        tools.drop_view_if_exists(self.env.cr, 'piros_renewals_overview')
+        self.env.cr.execute("""
           CREATE OR REPLACE VIEW piros_renewals_overview AS (
             SELECT 
             row_number() OVER () as id,
@@ -294,18 +297,21 @@ class RenewalsOverview(models.Model):
             GROUP BY sale_order_line.x_enddate,sale_order.id,sale_order.name,rp1.commercial_company_name,rp2.commercial_company_name,sale_order_line.name,sale_order_line.product_uom_qty,sale_order_line.x_contract 
             ORDER BY x_date
           )""")
-  def button_so(self):
-      return {
-        'view_type':'form',
-        'view_mode':'form',
-        'res_model':'sale.order',
-        'res_id':int(self.x_order_id),
-        'type':'ir.actions.act_window',
-      }
+
+    def button_so(self):
+        return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order',
+            'res_id': int(self.x_order_id),
+            'type': 'ir.actions.act_window',
+        }
+
 
 class MarginSplit(models.Model):
     _name = 'piros.marginsplit'
     _rec_name = 'x_name'
+    _description = 'piros marginsplit'
 
     x_name = fields.Char('Name')
     x_kind = fields.Selection(
@@ -322,7 +328,7 @@ class MarginSplit(models.Model):
     x_fixed_price = fields.Float('Fixed Price', required=False, digits=(12, 2))
 
 
-#class LicenseProduct(models.Model):
+# class LicenseProduct(models.Model):
 #    _inherit = "product.product"
 #
 #    type = fields.Selection([
@@ -334,7 +340,7 @@ class MarginSplit(models.Model):
 #             'A storable product is a product for which you manage stock. The Inventory app has to be installed.\n'
 #             'A consumable product is a product for which stock is not managed.\n'
 #             'A service is a non-material product you provide.')
-#.
+# .
 #    @api.onchange('type')
 #    def _onchange_type(self):
 #        super()._onchange_type()
@@ -366,8 +372,8 @@ class LicenseProductTemplate(models.Model):
         super()._onchange_type()
         if self.type == 'service':
             self.invoice_policy = 'order'
-            #self.service_type = 'timesheet'
-        #elif self.type == 'consu' and self.service_policy == 'ordered_timesheet':
+            # self.service_type = 'timesheet'
+        # elif self.type == 'consu' and self.service_policy == 'ordered_timesheet':
         elif self.type == 'consu':
             self.invoice_policy = 'order'
         elif self.type in ('license', 'sub'):
@@ -426,9 +432,11 @@ class PartnerExtension(models.Model):
     x_intercompany = fields.Boolean(default=False, string='Is Cronos Intercompany')
     x_redhat_accountmanager = fields.Many2one('res.partner', string='Red Hat Account Manager', required=False)
     x_redhat_internalsales = fields.Many2one('res.partner', string='Red Hat Internal Sales', required=False)
-    x_indirect_sale_order_count = fields.Integer(compute='_compute_indirect_sale_order_count', string='Indirect Sale Order Count')
+    x_indirect_sale_order_count = fields.Integer(compute='_compute_indirect_sale_order_count',
+                                                 string='Indirect Sale Order Count')
     x_partner_attachment_ids = fields.Many2many('ir.attachment', 'res_id', string='Documents')
-    #x_partner_tags = fields.Many2many('res.partner.category', string='Tags')
+
+    # x_partner_tags = fields.Many2many('res.partner.category', string='Tags')
 
     def _compute_indirect_sale_order_count(self):
         # retrieve all children partners and prefetch 'parent_id' on them
@@ -436,7 +444,7 @@ class PartnerExtension(models.Model):
         all_partners.read(['parent_id'])
 
         sale_order_groups = self.env['sale.order'].read_group(
-            domain=[('x_end_customer_id', 'in', all_partners.ids),('partner_id', 'not in', all_partners.ids)],
+            domain=[('x_end_customer_id', 'in', all_partners.ids), ('partner_id', 'not in', all_partners.ids)],
             fields=['x_end_customer_id'], groupby=['x_end_customer_id']
         )
         partners = self.browse()

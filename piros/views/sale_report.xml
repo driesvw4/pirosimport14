@@ -20,6 +20,7 @@
             <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
             <field name="binding_type">report</field>
         </record>
+
         <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
             <field name="name">PRO-FORMA InvoiceIntercompany Quotation / Order</field>
             <field name="model">sale.order</field>

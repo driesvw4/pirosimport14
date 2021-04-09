@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <template id="piros_external_layout_standard_inherit" inherit_id="web.external_layout_standard">
-            <xpath expr="//div[@name='company_address']" position="replace"/>
-            <!-- =============================== Hide Quotation footer  ================================================ -->
-	    <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+    <template id="piros_external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@name='company_address']" position="replace"/>
+        <!-- =============================== Hide Quotation footer  ================================================ -->
+        <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
             <div class="footer o_standard_footer">
-	      <div class="text-center" style="border-top: 1px solid black;">
-                <div t-if="report_type == 'pdf'" class="text-muted">
-                    Page: <span class="page"/> / <span class="topage"/>
-                </div>
-	      </div>
-	    </div>
-            </xpath>
-        </template>
-
-        <template id="piros_report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
-            <!-- =============================== Header modifications ============================================== -->
-            <xpath expr="//t[@t-set='address']" position="replace"/>
-	    <xpath expr="//h2[hasclass('mt16')]" position="replace">
-	      <h2 class="mt16">
-	        <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
-			<t t-if="is_intercompany">
-				<span>INTERCOMPANY </span>
-			</t>
-			<span t-if="doc.state not in ['draft','sent']">Order # </span>
-			<span t-if="doc.state in ['draft','sent']">Quotation # </span>
-		</t>
-		<t t-if="env.context.get('proforma', False) or is_pro_forma">
-                    <span>INTERCOMPANY Pro-Forma Invoice # </span>
-	        </t>
-                <span t-field="doc.name"/>
-	      </h2>
-            </xpath>
-            <xpath expr="//t[starts-with(@t-if, 'doc.partner_shipping_id')]" position="replace"/>
-            <xpath expr="//div[@id='informations']" position="replace">
-                <div class="row piros-header">
-                    <div class="col-3">
-                        <table class="table table-sm">
-                            <tr>
-                                <td class="text-left">
-                                    Company:
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <t t-if="doc.partner_id.street2 is not False">
-                                        <br/>
-                                    </t>
-                                    Your sales person:
-                                    <br/>
-                                    E-mail:
-                                    <br/>
-                                    Phone:
-                                    <br/>
-                                    VAT #
-                                </td>
-                                <td class="text-left">
-                                    Piros
-                                    <br/>
-                                    Gaston Geenslaan 11 B4
-                                    <br/>
-                                    3001 Leuven
-                                    <br/>
-                                    <t t-if="doc.partner_id.street2 is not False">
-                                        <br/>
-                                    </t>
-                                    <span t-field="doc.user_id.name"/>
-                                    <br/>
-                                    <span t-field="doc.user_id.partner_id.email"/>
-                                    <br/>
-                                    <span t-field="doc.user_id.partner_id.phone"/>
-                                    <br/>
-                                    <span t-field="doc.user_id.partner_id.vat"/>
-                                </td>
-                            </tr>
-                        </table>
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page: <span class="page"/> / <span class="topage"/>
                     </div>
-	         <t t-if="is_intercompany or is_pro_forma">
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="piros_report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <!-- =============================== Header modifications ============================================== -->
+        <xpath expr="//t[@t-set='address']" position="replace"/>
+        <xpath expr="//h2[hasclass('mt16')]" position="replace">
+            <h2 class="mt16">
+                <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                    <t t-if="is_intercompany">
+                        <span>INTERCOMPANY </span>
+                    </t>
+                    <span t-if="doc.state not in ['draft','sent']">Order # </span>
+                    <span t-if="doc.state in ['draft','sent']">Quotation # </span>
+                </t>
+                <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                    <span>INTERCOMPANY Pro-Forma Invoice # </span>
+                </t>
+                <span t-field="doc.name"/>
+            </h2>
+        </xpath>
+        <xpath expr="//t[starts-with(@t-if, 'doc.partner_shipping_id')]" position="replace"/>
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div class="row piros-header">
+                <div class="col-3">
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-left">
+                                Company:
+                                <br/>
+                                <br/>
+                                <br/>
+                                <t t-if="doc.partner_id.street2 is not False">
+                                    <br/>
+                                </t>
+                                Your sales person:
+                                <br/>
+                                E-mail:
+                                <br/>
+                                Phone:
+                                <br/>
+                                VAT #
+                            </td>
+                            <td class="text-left">
+                                Piros
+                                <br/>
+                                Gaston Geenslaan 11 B4
+                                <br/>
+                                3001 Leuven
+                                <br/>
+                                <t t-if="doc.partner_id.street2 is not False">
+                                    <br/>
+                                </t>
+                                <span t-field="doc.user_id.name"/>
+                                <br/>
+                                <span t-field="doc.user_id.partner_id.email"/>
+                                <br/>
+                                <span t-field="doc.user_id.partner_id.phone"/>
+                                <br/>
+                                <span t-field="doc.user_id.partner_id.vat"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <t t-if="is_intercompany or is_pro_forma">
                     <div class="col-3">
                         <table class="table table-sm">
                             <tr>
@@ -96,7 +96,7 @@
                                     VAT #:
                                 </td>
                                 <td class="text-left">
-					<span t-field="doc.partner_id.commercial_partner_id.name"/>
+                                    <span t-field="doc.partner_id.commercial_partner_id.name"/>
                                     <br/>
                                     <span t-field="doc.partner_id.street"/>
                                     <br/>
@@ -118,194 +118,194 @@
                             </tr>
                         </table>
                     </div>
-	         </t>
-		    <div class="col-3">
-                        <table class="table table-sm">
+                </t>
+                <div class="col-3">
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-left">
+                                End customer:
+                                <br/>
+                                <t t-if="doc.x_end_customer_id.street2 is not False">
+                                    <br/>
+                                </t>
+                                <br/>
+                                <br/>
+                                Contact:
+                                <br/>
+                                E-mail:
+                                <br/>
+                                Phone:
+                                <br/>
+                                VAT #:
+                            </td>
+                            <td class="text-left">
+                                <span t-field="doc.x_end_customer_id.commercial_partner_id.name"/>
+                                <br/>
+                                <span t-field="doc.x_end_customer_id.street"/>
+                                <br/>
+                                <t t-if="doc.x_end_customer_id.street2 is not False">
+                                    <span t-field="doc.partner_id.street2"/>
+                                    <br/>
+                                </t>
+                                <span t-field="doc.x_end_customer_id.zip"/>
+                                <span t-field="doc.partner_id.city"/>
+                                <br/>
+                                <span t-field="doc.x_end_customer_id.name"/>
+                                <br/>
+                                <span t-field="doc.x_end_customer_id.email"/>
+                                <br/>
+                                <span t-field="doc.x_end_customer_id.phone"/>
+                                <br/>
+                                <span t-field="doc.x_end_customer_id.vat"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-left">
+                                Currency:
+                                <br/>
+                                Quotation Date:
+                                <br/>
+                                Expiration Date:
+                                <br/>
+                                Payment Terms:
+                                <br/>
+                                Customer Reference:
+                                <br/>
+                                <br/>
+                                <br/>
+                                <t t-if="doc.partner_id.street2 is not False">
+                                    <br/>
+                                </t>
+                            </td>
+                            <td class="text-left">
+                                <span t-field="doc.pricelist_id.currency_id.name"/>
+                                <br/>
+                                <span t-field="doc.date_order"/>
+                                <br/>
+                                <span t-field="doc.validity_date"/>
+                                <br/>
+                                <span t-field="doc.payment_term_id"/>
+                                <br/>
+                                <span t-field="doc.client_order_ref"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <t t-if="doc.partner_id.street2 is not False">
+                                    <br/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- =============================== Table modifications =============================================== -->
+        <xpath expr="//th[@name='th_description']" position="after">
+            <th class="text-left">Start Date</th>
+            <th class="text-left">End Date</th>
+            <th class="text-right">Contract #</th>
+            <th class="text-left">Type</th>
+        </xpath>
+
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th class="text-left">Item</th>
+        </xpath>
+
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-right">List Price</th>
+        </xpath>
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+            <th name="th_x_discountedprice" class="text-right">Unit Price</th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_name']" position="after">
+            <td class="text-left">
+                <span t-field="line.x_startdate"/>
+            </td>
+            <td class="text-left">
+                <span t-field="line.x_enddate"/>
+            </td>
+            <td class="text-right">
+                <span t-esc="'{:}'.format(int(line.x_contract)).replace(',', '')"/>
+            </td>
+            <td class="text-left">
+                <span t-field="line.x_renewal"/>
+            </td>
+        </xpath>
+
+        <xpath expr="//td[@name='td_name']" position="before">
+            <td class="text-left">
+                <span t-esc="(line.name.split(']', 1)[0] + ']').strip('[').strip(']')"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='td_name']" position="replace">
+            <td class="text-left">
+                <span t-esc="line.name.split(']', 1)[-1]"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']" position="replace">
+            <td class="text-right">
+                <span t-field="line.x_discountedprice"/>
+            </td>
+        </xpath>
+
+        <xpath expr="//span[@t-field='line.product_uom_qty']" position="replace">
+            <span t-esc="line.humanize_quantity()"/>
+        </xpath>
+
+        <!-- =============================== Totals modifications ============================================== -->
+        <xpath expr="//td[@name='td_amount_untaxed_label'][ancestor::tr]" position="before">
+            <t t-if="is_pro_forma">
+                <tr><td>ENDUSER Total (ex VAT)</td><td class="text-right"><span t-field="doc.amount_untaxed"/></td></tr>
+            </t>
+        </xpath>
+        <xpath expr="//td[@name='td_amount_untaxed_label']" position="replace">
+            <t t-if="is_intercompany or is_pro_forma">
+                <td name="td_amount_untaxed_label"><strong>INTERCOMPANY Total (ex VAT)</strong></td>
+            </t>
+            <t t-if="not is_intercompany and not is_pro_forma">
+                <td name="td_amount_untaxed_label"><strong>Total (ex VAT)</strong></td>
+            </t>
+        </xpath>
+        <xpath expr="//td[@name='td_amount_untaxed']" position="replace">
+            <t t-if="is_intercompany or is_pro_forma">
+                <td name="td_amount_untaxed" class="text-right"><span t-field="doc.x_totalintercompany"/></td>
+            </t>
+            <t t-if="not is_intercompany and not is_pro_forma">
+                <td name="td_amount_untaxed" class="text-right"><span t-field="doc.amount_untaxed"/></td>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-foreach='doc.amount_by_group']" position="replace"/>
+        <xpath expr="//tr[hasclass('o_total')]" position="replace"/>
+
+        <!-- =============================== Signature ========================================================= -->
+        <xpath expr="//div[@name='signature']" position="replace">
+            <div class="row">
+                <div class="col-2" id="customersignature">
+                    <table class="table table-sm">
+                        <thead>
                             <tr>
-                                <td class="text-left">
-                                    End customer:
-                                    <br/>
-                                    <t t-if="doc.x_end_customer_id.street2 is not False">
-                                        <br/>
-                                    </t>
-                                    <br/>
-                                    <br/>
-                                    Contact:
-                                    <br/>
-                                    E-mail:
-                                    <br/>
-                                    Phone:
-                                    <br/>
-                                    VAT #:
-                                </td>
-                                <td class="text-left">
-					<span t-field="doc.x_end_customer_id.commercial_partner_id.name"/>
-                                    <br/>
-                                    <span t-field="doc.x_end_customer_id.street"/>
-                                    <br/>
-                                    <t t-if="doc.x_end_customer_id.street2 is not False">
-                                        <span t-field="doc.partner_id.street2"/>
-                                        <br/>
-                                    </t>
-                                    <span t-field="doc.x_end_customer_id.zip"/>
-                                    <span t-field="doc.partner_id.city"/>
-                                    <br/>
-                                    <span t-field="doc.x_end_customer_id.name"/>
-                                    <br/>
-                                    <span t-field="doc.x_end_customer_id.email"/>
-                                    <br/>
-                                    <span t-field="doc.x_end_customer_id.phone"/>
-                                    <br/>
-                                    <span t-field="doc.x_end_customer_id.vat"/>
+                                <th>For approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding-bottom:5em">
+                                    <span t-field="doc.partner_id.name"/>
                                 </td>
                             </tr>
-			</table>
-		    </div>
-                    <div class="col-3">
-                        <table class="table table-sm">
-                            <tr>
-                                <td class="text-left">
-                                    Currency:
-                                    <br/>
-                                    Quotation Date:
-                                    <br/>
-                                    Expiration Date:
-                                    <br/>
-                                    Payment Terms:
-                                    <br/>
-                                    Customer Reference:
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <t t-if="doc.partner_id.street2 is not False">
-                                        <br/>
-                                    </t>
-                                </td>
-                                <td class="text-left">
-                                    <span t-field="doc.pricelist_id.currency_id.name"/>
-                                    <br/>
-                                    <span t-field="doc.date_order"/>
-                                    <br/>
-                                    <span t-field="doc.validity_date"/>
-                                    <br/>
-                                    <span t-field="doc.payment_term_id"/>
-                                    <br/>
-				    <span t-field="doc.client_order_ref"/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <t t-if="doc.partner_id.street2 is not False">
-                                        <br/>
-                                    </t>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-            </xpath>
+            </div>
+        </xpath>
 
-            <!-- =============================== Table modifications =============================================== -->
-            <xpath expr="//th[@name='th_description']" position="after">
-                <th class="text-left">Start Date</th>
-                <th class="text-left">End Date</th>
-                <th class="text-right">Contract #</th>
-                <th class="text-left">Type</th>
-            </xpath>
-
-            <xpath expr="//th[@name='th_description']" position="before">
-                <th class="text-left">Item</th>
-            </xpath>
-
-            <xpath expr="//th[@name='th_priceunit']" position="replace">
-                <th name="th_priceunit" class="text-right">List Price</th>
-            </xpath>
-            <xpath expr="//th[@name='th_taxes']" position="replace">
-                <th name="th_x_discountedprice" class="text-right">Unit Price</th>
-            </xpath>
-
-            <xpath expr="//td[@name='td_name']" position="after">
-                <td class="text-left">
-                    <span t-field="line.x_startdate"/>
-                </td>
-                <td class="text-left">
-                    <span t-field="line.x_enddate"/>
-                </td>
-                <td class="text-right">
-                    <span t-esc="'{:}'.format(int(line.x_contract)).replace(',', '')"/>
-                </td>
-                <td class="text-left">
-                    <span t-field="line.x_renewal"/>
-                </td>
-            </xpath>
-
-            <xpath expr="//td[@name='td_name']" position="before">
-                <td class="text-left">
-                    <span t-esc="(line.name.split(']', 1)[0] + ']').strip('[').strip(']')"/>
-                </td>
-            </xpath>
-            <xpath expr="//td[@name='td_name']" position="replace">
-                <td class="text-left">
-                    <span t-esc="line.name.split(']', 1)[-1]"/>
-                </td>
-            </xpath>
-            <xpath expr="//td[@name='td_taxes']" position="replace">
-                <td class="text-right">
-                    <span t-field="line.x_discountedprice"/>
-                </td>
-            </xpath>
-
-            <xpath expr="//span[@t-field='line.product_uom_qty']" position="replace">
-                <span t-esc="line.humanize_quantity()"/>
-            </xpath>
-
-            <!-- =============================== Totals modifications ============================================== -->
-            <xpath expr="//td[@name='td_amount_untaxed_label'][ancestor::tr]" position="before">
-          <t t-if="is_pro_forma">
-		  <tr><td>ENDUSER Total (ex VAT)</td><td class="text-right"><span t-field="doc.amount_untaxed"/></td></tr>
-          </t>
-            </xpath>
-            <xpath expr="//td[@name='td_amount_untaxed_label']" position="replace">
-		<t t-if="is_intercompany or is_pro_forma">
-			<td name="td_amount_untaxed_label"><strong>INTERCOMPANY Total (ex VAT)</strong></td>
-	        </t>
-		<t t-if="not is_intercompany and not is_pro_forma">
-     		  <td name="td_amount_untaxed_label"><strong>Total (ex VAT)</strong></td>    
-	        </t>
-            </xpath>
-	    <xpath expr="//td[@name='td_amount_untaxed']" position="replace">
-		<t t-if="is_intercompany or is_pro_forma">
-		    <td name="td_amount_untaxed" class="text-right"><span t-field="doc.x_totalintercompany"/></td>
-		</t>
-		<t t-if="not is_intercompany and not is_pro_forma">
-		    <td name="td_amount_untaxed" class="text-right"><span t-field="doc.amount_untaxed"/></td>
-		</t>
-	    </xpath>
-            <xpath expr="//t[@t-foreach='doc.amount_by_group']" position="replace"/>
-            <xpath expr="//tr[hasclass('o_total')]" position="replace"/>
-
-            <!-- =============================== Signature ========================================================= -->
-            <xpath expr="//div[@name='signature']" position="replace">
-                <div class="row">
-                    <div class="col-2" id="customersignature">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>For approval</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="padding-bottom:5em">
-                                        <span t-field="doc.partner_id.name"/>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </xpath>
-
-            <!-- =============================== Hide payment terms ================================================ -->
-            <xpath expr="//span[@t-field='doc.payment_term_id.note']" position="replace"/>
-        </template>
+        <!-- =============================== Hide payment terms ================================================ -->
+        <xpath expr="//span[@t-field='doc.payment_term_id.note']" position="replace"/>
+    </template>
 </odoo>

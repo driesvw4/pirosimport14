@@ -5,7 +5,7 @@ from odoo import fields, models, api
 class purchase_order(models.Model):
     _inherit = "purchase.order"
     
-    rfq_name = fields.Char('Rfq Reference', required=True, select=True, copy=False,
+    rfq_name = fields.Char('Rfq Reference', required=False, copy=False,
                             help="Unique number of the purchase order, "
                                  "computed automatically when the purchase order is created.")
     interchanging_rfq_sequence = fields.Char('Sequence')
