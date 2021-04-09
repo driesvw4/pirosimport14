@@ -158,7 +158,7 @@
                                invisible="1"/>
                         <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'
                                options="{'currency_field': 'currency_id'}" invisible="1"/>
-                        <field name="margin" string="Gross Margin" class="oe_inline"/>
+                        <field name="margin" string="Gross Margin"/>
                         <field name="x_totalcost" string="Purchase Price"/>
                         <field name="x_pirosmargin" string="Piros Margin"/>
                         <field name="x_pirosmargin_pct" string="Piros Margin %"/>

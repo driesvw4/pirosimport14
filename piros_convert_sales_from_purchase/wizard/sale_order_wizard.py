@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
-import time
 from odoo import api, fields, models, _
-from datetime import datetime
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import UserError
 
 
 class createsaleorder(models.TransientModel):
@@ -20,9 +16,9 @@ class createsaleorder(models.TransientModel):
     @api.model
     def default_get(self, all_fields):
         res = super(createsaleorder, self).default_get(all_fields)
-        record = self.env['purchase.order'].browse(self._context.get('active_ids', []))
+        records = self.env['purchase.order'].browse(self._context.get('active_ids', []))
         update = []
-        for record in record.order_line:
+        for record in records.order_line:
             update.append((0, 0, {
                 'product_id': record.product_id.id,
                 'name': record.name,
@@ -42,6 +38,7 @@ class createsaleorder(models.TransientModel):
     def action_create_sale_order(self):
         self.ensure_one()
         res = self.env['sale.order'].browse(self._context.get('id', []))
+        record = self.env['purchase.order'].browse(self._context.get('active_ids', []))
         value = []
         for data in self.new_order_line_ids:
             value.append([0, 0, {
@@ -58,7 +55,7 @@ class createsaleorder(models.TransientModel):
         res.create({'partner_id': self.partner_id.id,
                     'date_order': self.date_order,
                     'order_line': value,
-
+                    'x_end_customer_id': record.x_end_customer_id.id,
                     })
         return
 
